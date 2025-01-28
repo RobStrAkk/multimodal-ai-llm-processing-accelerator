@@ -39,16 +39,16 @@ param cosmosDbDatabaseName string = 'default'
 param cosmosDbContainerNames array = ['blob-form-to-cosmosdb-container']
 
 @description('The location of the Azure AI services resource to be used for Azure AI Content Understanding (this will be a multi-service resource). This should be in a location supported by the service (see https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support?tabs=document#region-support)')
-param contentUnderstandingLocation string = 'westus'
+param contentUnderstandingLocation string = 'germanywestcentral'
 
 @description('The location of the Azure Document Intelligence resource. This should be in a location where all required models are available (see https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/versioning/changelog-release-history)')
-param docIntelLocation string = 'eastus'
+param docIntelLocation string = 'germanywestcentral'
 
 @description('The location of the Azure AI Speech resource. This should be in a location where all required models are available (see https://learn.microsoft.com/en-us/azure/ai-services/speech-service/regions and https://learn.microsoft.com/en-au/azure/ai-services/speech-service/fast-transcription-create#prerequisites)')
-param speechLocation string = 'eastus'
+param speechLocation string = 'germanywestcentral'
 
 @description('The location of the OpenAI Azure resource. This should be in a location where all required models are available (see https://learn.microsoft.com/en-au/azure/ai-services/openai/concepts/models#model-summary-table-and-region-availability)')
-param openAILocation string = 'eastus2'
+param openAILocation string = 'germanywestcentral'
 
 @description('The max TPM of the deployed OpenAI LLM model, in thousands. `30` = 30k max TPM. If set to 0, the OpenAI LLM model will not be deployed.')
 param openAILLMDeploymentCapacity int = 30
