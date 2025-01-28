@@ -54,14 +54,15 @@ param openAILocation string = 'germanywestcentral'
 param openAILLMDeploymentCapacity int = 30
 
 @description('The OpenAI LLM model to be deployed')
-param openAILLMModel string = 'gpt-4o'
+param openAILLMModel string = 'gpt-4o-mini'
 
 @description('The OpenAI LLM model version to be deployed')
-param openAILLMModelVersion string = '2024-05-13'
+param openAILLMModelVersion string = '2024-07-18'
 
 @description('The OpenAI LLM model deployment SKU')
-param openAILLMDeploymentSku string = 'Standard'
+param openAILLMDeploymentSku string = 'GlobalStandard'
 
+/*
 @description('The max TPM of the deployed OpenAI Whisper model, in thousands. `3` = 3k max TPM. If set to 0, the Whisper model will not be deployed.')
 param openAIWhisperDeploymentCapacity int = 3
 
@@ -73,6 +74,7 @@ param openAIWhisperModelVersion string = '001'
 
 @description('The OpenAI LLM model deployment SKU')
 param openAIWhisperDeploymentSku string = 'Standard'
+*/
 
 param location string = resourceGroup().location
 param resourceToken string = take(toLower(uniqueString(subscription().id, resourceGroup().id, location)), 5)
@@ -110,7 +112,7 @@ var functionAppConsumptionSettings = ((!functionAppUsePremiumSku)
   : {})
 
 var deployOpenAILLMModel = (openAILLMDeploymentCapacity > 0)
-var deployOpenAIWhisperModel = (openAIWhisperDeploymentCapacity > 0)
+// var deployOpenAIWhisperModel = (openAIWhisperDeploymentCapacity > 0)
 
 var functionAppTokenName = appendUniqueUrlSuffix
   ? toLower('${functionAppName}-${resourceToken}')
@@ -122,7 +124,7 @@ var functionAppPlanTokenName = toLower('${functionAppName}-plan-${resourceToken}
 var webAppPlanTokenName = toLower('${webAppName}-plan-${resourceToken}')
 var openAITokenName = toLower('${resourcePrefix}-aoai-${openAILocation}-${resourceToken}')
 var openAILLMDeploymentName = toLower('${openAILLMModel}-${openAILLMModelVersion}-${openAILLMDeploymentSku}')
-var openAIWhisperDeploymentName = toLower('${openAIWhisperModel}-${openAIWhisperModelVersion}-${openAIWhisperDeploymentSku}')
+// var openAIWhisperDeploymentName = toLower('${openAIWhisperModel}-${openAIWhisperModelVersion}-${openAIWhisperDeploymentSku}')
 var contentUnderstandingTokenName = toLower('${resourcePrefix}-content-understanding-${contentUnderstandingLocation}-${resourceToken}')
 var docIntelTokenName = toLower('${resourcePrefix}-doc-intel-${docIntelLocation}-${resourceToken}')
 var speechTokenName = toLower('${resourcePrefix}-speech-${speechLocation}-${resourceToken}')
@@ -311,6 +313,7 @@ resource llmdeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05
   }
 }
 
+/*
 resource whisperdeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = if (deployOpenAIWhisperModel) {
   parent: azureopenai
   dependsOn: [llmdeployment] // Ensure one model deployment at a time
@@ -327,6 +330,7 @@ resource whisperdeployment 'Microsoft.CognitiveServices/accounts/deployments@202
     capacity: openAIWhisperDeploymentCapacity
   }
 }
+*/
 
 // Key Vault for storing API keys
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
@@ -494,7 +498,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
       FUNCTIONS_WORKER_RUNTIME: 'python'
       AOAI_ENDPOINT: azureopenai.properties.endpoint
       AOAI_LLM_DEPLOYMENT: openAILLMDeploymentName
-      AOAI_WHISPER_DEPLOYMENT: openAIWhisperDeploymentName
+      // AOAI_WHISPER_DEPLOYMENT: openAIWhisperDeploymentName
       AOAI_API_KEY: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=${aoaiKeyKvSecretName})'
       CONTENT_UNDERSTANDING_ENDPOINT: 'https://${contentUnderstandingTokenName}.services.ai.azure.com/'
       CONTENT_UNDERSTANDING_KEY: '@Microsoft.KeyVault(VaultName=${keyVault.name};SecretName=${contentUnderstandingKeyKvSecretName})'

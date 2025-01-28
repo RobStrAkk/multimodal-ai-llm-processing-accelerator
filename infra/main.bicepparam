@@ -28,26 +28,29 @@ param storageAccountName = 'llmprocstorage'
 // Ensure your speech service location has model availability for the methods you need - see:
 // 1. https://learn.microsoft.com/en-us/azure/ai-services/speech-service/regions
 // 2. https://learn.microsoft.com/en-us/azure/ai-services/speech-service/fast-transcription-create#prerequisites
-param speechLocation = 'eastus'
+param speechLocation = 'germanywestcentral'
 
 // Doc Intelligence API v4.0 is only supported in some regions. To make use of the custom
 // DocumentIntelligenceProcessor, make sure to select a region where v4.0 is supported. See:
 // 1. https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/versioning/changelog-release-history
-param docIntelLocation = 'eastus'
+param docIntelLocation = 'germanywestcentral'
 
 // Ensure your Content Understanding resource is deployed to a supported location - see:
 // 1. https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support?tabs=document#region-support
-param contentUnderstandingLocation = 'westus'
+param contentUnderstandingLocation = 'germanywestcentral'
 
 // Azure OpenAI
 // Ensure your OpenAI service locations have model availability - see:
 // 1. https://learn.microsoft.com/en-us/azure/ai-services/openai/quotas-limits#regional-quota-limits
-param openAILocation = 'eastus2'
+param openAILocation = 'germanywestcentral'
 param openAILLMDeploymentCapacity = 30
-param openAILLMModel = 'gpt-4o'
-param openAILLMModelVersion = '2024-05-13'
-param openAILLMDeploymentSku = 'Standard'
+param openAILLMModel = 'gpt-4o-mini'
+param openAILLMModelVersion = '2024-07-18'
+param openAILLMDeploymentSku = 'GlobalStandard'
+
+/*
 param openAIWhisperDeploymentCapacity = 1
 param openAIWhisperModel = 'whisper'
 param openAIWhisperModelVersion = '001'
 param openAIWhisperDeploymentSku = 'Standard'
+*/
